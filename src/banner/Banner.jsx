@@ -15,6 +15,7 @@ const Banner = () => {
   return (
     <div className="relative">
       <Swiper
+        loop={true}
         modules={[Navigation]}
         navigation={{
           prevEl: prevRef.current,

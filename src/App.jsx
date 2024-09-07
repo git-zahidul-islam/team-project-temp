@@ -1,29 +1,28 @@
+import AmountRoute from "./banner/AmountRoute";
 import Banner from "./banner/Banner";
-import Card from "./card/Card";
-import Details from "./details/Details";
-
-
+import CheckoutForm from "./banner/CheckoutForm";
+import OrderList from "./banner/OrderList";
+import ProductsStock from "./bristy/ProductsStock";
+import AddProduct from "./shati/AddProduct";
 function App() {
-
   return(
     <div>
       <Banner/>
-      <div className="bg-[#F5F5F5]">
-      <div className="grid lg:grid-cols-6 md:grid-cols-4 grid-cols-2 gap-5 md:p-5 p-2 md:w-[85%] w-full mx-auto">
-      <Card></Card>
-      <Card></Card>
-      <Card></Card>
-      <Card></Card>
-      <Card></Card>
-      <Card></Card>
-      <Card></Card>
-      <Card></Card>
-      <Card></Card>
-      <Card></Card>
-      </div>
-      </div>
       <div className="my-10">
-        <Details/>
+        <CheckoutForm/>
+      </div>
+      <div className="my-20">
+        <OrderList/>
+        <h1 className="text-center my-5">Ammount Route</h1>
+        <AmountRoute/>
+      </div>
+
+      <div className="my-10">
+        <AddProduct/>
+      </div>
+
+      <div className="my-10">
+        <ProductsStock/>
       </div>
     </div>
   )
