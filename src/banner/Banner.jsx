@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/navigation";
@@ -7,10 +7,37 @@ import { FaChevronCircleLeft, FaChevronCircleRight } from 'react-icons/fa';
 // images
 import img1 from '../assets/banImg1.jpg';
 import img2 from '../assets/banImg2.jpg';
+import axios from "axios";
 
 const Banner = () => {
   const prevRef = useRef(null);
   const nextRef = useRef(null);
+
+  // banner code from server
+  const [banners, setBanners] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
+
+  console.log(banners);
+
+  useEffect(() => {
+    const fetchBanners = async () => {
+      try {
+        // Use the correct endpoint here
+        const response = await axios.get("http://localhost:5000/get-banner");
+        setBanners(response.data);
+      } catch (err) {
+        setError("Failed to fetch banners");
+        console.error(err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchBanners();
+  }, []);
+
+  console.log(banners);
 
   return (
     <div className="relative">
@@ -30,23 +57,26 @@ const Banner = () => {
         }}
         className="mySwiper"
       >
-        <SwiperSlide>
-          <div className="flex md:flex-row flex-col w-full h-auto text-[#553B06]">
-            <div className="md:w-[30%] w-full bg-[#FFBD14] md:px-16 px-8 md:py-4 py-2 space-y-4 flex flex-col justify-center">
-              <h1 className="md:text-3xl text-2xl font-bold leading-tight">
-                Reawaken your passion for collections
-              </h1>
-              <p className="text-lg">Explore a variety of unique cards on eBay.</p>
-              <button className="border-[1px] border-[#553B06] rounded-3xl px-[17px] py-[10px] text-base hover:bg-[#553B06] hover:text-[#FFBD14]">
-                Shop Now
-              </button>
+        {
+          banners.map((banner) => (<SwiperSlide key={banner._id}>
+            <div className="flex md:flex-row flex-col w-full h-auto text-[#553B06]">
+              <div className="md:w-[30%] w-full bg-[#FFBD14] md:px-16 px-8 md:py-4 py-2 space-y-4 flex flex-col justify-center">
+                <h1 className="md:text-3xl text-2xl font-bold leading-tight">
+                  {banner.title || "dsfjdjf"}
+                </h1>
+                <p className="text-lg">{banner.description || "ddddd"}</p>
+                <button className="border-[1px] border-[#553B06] rounded-3xl px-[17px] py-[10px] text-base hover:bg-[#553B06] hover:text-[#FFBD14]">
+                  Shop Now
+                </button>
+              </div>
+              <div className="md:w-[70%] w-full">
+                <img className="object-cover w-full md:h-[361px] h-[210px]" src={banner.bannerImage} alt="slide images" />
+              </div>
             </div>
-            <div className="md:w-[70%] w-full">
-              <img className="object-cover w-full h-full" src={img1} alt="slide images" />
-            </div>
-          </div>
-        </SwiperSlide>
-        <SwiperSlide>
+          </SwiperSlide>))
+        }
+
+        {/* <SwiperSlide>
           <div className="flex md:flex-row flex-col w-full h-auto text-[#2A0303]">
             <div className="md:w-[30%] w-full bg-[#F02D2D] md:px-16 px-8 md:py-4 py-2 space-y-4 flex flex-col justify-center">
               <h1 className="md:text-3xl text-2xl font-bold leading-tight">
@@ -58,10 +88,10 @@ const Banner = () => {
               </button>
             </div>
             <div className="md:w-[70%] w-full">
-              <img className="object-cover w-full h-full" src={img2} alt="slide images" />
+              <img className="object-cover w-full md:h-[361px] h-[210px]" src={img2} alt="slide images" />
             </div>
           </div>
-        </SwiperSlide>
+        </SwiperSlide> */}
       </Swiper>
 
       {/* Custom Navigation Buttons */}
